@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Liên hệ</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-bg">
+
+  <nav class="nav">
+    <div class="nav__brand">📩 Contact</div>
+    <div class="nav__links">
+      <a href="index.html">Trang chủ</a>
+      <a href="about.html">Giới thiệu</a>
+      <a href="contact.html" class="active">Liên hệ</a>
+      <a href="baitap14.html">Bài 14</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="card">
+      <h1>Liên hệ</h1>
+      <p class="muted">Bạn có thể liên hệ với mình qua các thông tin dưới đây:</p>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <h3>📞 Số điện thoại</h3>
+          <p class="muted">Nhấn để gọi nhanh</p>
+          <a class="btn" href="tel:0900000000">📲 0814141590</a>
+        </div>
+
+        <div class="contact-item">
+          <h3>✉️ Email</h3>
+          <p class="muted">Nhấn để gửi email</p>
+          <a class="btn" href="mailto:nguyenthanhtien@gmail.com?subject=Lien%20he%20tu%20website&body=Chao%20Tien,%20minh%20muon%20lien%20he%20ve...">
+            📧 nttbob2005gg@gmail.com
+          </a>
+        </div>
+      </div>
+
+      <hr class="line">
+
+      <h2>Gửi tin nhắn nhanh (demo)</h2>
+      <form class="form" id="contactForm">
+        <div class="form__row">
+          <label>Họ tên</label>
+          <input type="text" id="cName" placeholder="Nhập họ tên..." maxlength="60">
+        </div>
+
+        <div class="form__row">
+          <label>Nội dung</label>
+          <input type="text" id="cMsg" placeholder="Nhập lời nhắn..." maxlength="200">
+        </div>
+
+        <button class="btn" type="submit">📩 Gửi</button>
+        <p id="cNote" class="success"></p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Demo: submit form contact (không gửi thật)
+    const f = document.getElementById("contactForm");
+    if (f) {
+      f.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("cName").value.trim();
+        const msg = document.getElementById("cMsg").value.trim();
+        document.getElementById("cNote").textContent =
+          name && msg ? `✅ Đã nhận tin nhắn của bạn, ${name}!` : "❌ Vui lòng nhập đủ họ tên và nội dung.";
+      });
+    }
+  </script>
+
+</body>
+</html>

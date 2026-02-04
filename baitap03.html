@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bài 3 - Countdown</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-bg">
+
+  <nav class="nav">
+    <div class="nav__brand">⏱ Bài 3</div>
+    <div class="nav__links">
+      <a href="index.html">Trang chủ</a>
+      <a href="baitap01.html">Bài 1</a>
+      <a href="baitap02.html">Bài 2</a>
+      <a href="baitap03.html" class="active">Bài 3</a>
+      <a href="baitap14.html">Bài 14</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="card center">
+      <h1>Countdown Timer (10 phút)</h1>
+      <div id="timerDisplay" class="timer">10:00</div>
+
+      <div class="btn-row center">
+        <button class="btn" id="btnStart">▶ Bắt đầu</button>
+        <button class="btn btn--ghost" id="btnPause">⏸ Tạm dừng</button>
+        <button class="btn btn--ghost" id="btnReset">↩ Reset</button>
+      </div>
+
+      <p class="muted">Khi dưới 01:00 sẽ nhấp nháy cảnh báo.</p>
+    </section>
+
+    <section class="card">
+      <h2>🧠 Giải thích logic tư duy (Bài 3)</h2>
+      <ul class="list">
+        <li><b>Tránh memory leak:</b> chỉ cho phép chạy 1 <code>setInterval</code> tại một thời điểm; mỗi lần dừng/hoặc hết giờ đều <code>clearInterval()</code>.</li>
+        <li><b>Tránh lệch thời gian:</b> tính theo <code>Date.now()</code> (endTime - now) thay vì trừ 1 giây liên tục ⇒ ít bị drift.</li>
+        <li><b>Deploy Domain/Hosting:</b> nếu cần đồng bộ server, ta có thể lấy “server timestamp” từ API, tính offset thời gian thay vì tin đồng hồ máy người dùng.</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal__box">
+      <h3>⏰ Hết giờ!</h3>
+      <p>Timer đã kết thúc.</p>
+      <button class="btn" id="btnCloseModal">Đóng</button>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

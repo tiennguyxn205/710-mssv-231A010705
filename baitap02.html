@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bài 2 - Đăng ký</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-bg">
+
+  <nav class="nav">
+    <div class="nav__brand">📝 Bài 2</div>
+    <div class="nav__links">
+      <a href="index.html">Trang chủ</a>
+      <a href="baitap01.html">Bài 1</a>
+      <a href="baitap02.html" class="active">Bài 2</a>
+      <a href="baitap03.html">Bài 3</a>
+      <a href="baitap14.html">Bài 14</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="card">
+      <h1>Đăng ký người dùng</h1>
+
+      <form id="registerForm" class="form">
+        <div class="form__row">
+          <label>Họ tên</label>
+          <input id="regName" type="text" placeholder="Nhập họ tên..." maxlength="60" />
+          <small id="errName" class="field-error"></small>
+        </div>
+
+        <div class="form__row">
+          <label>Email</label>
+          <input id="regEmail" type="email" placeholder="example@gmail.com" maxlength="80" />
+          <small id="errEmail" class="field-error"></small>
+        </div>
+
+        <div class="form__row">
+          <label>Mật khẩu</label>
+          <input id="regPassword" type="password" placeholder="Ít nhất 8 ký tự (hoa/thường/số)" maxlength="50" />
+          <small id="errPassword" class="field-error"></small>
+        </div>
+
+        <div class="form__check">
+          <input id="regAgree" type="checkbox" />
+          <label for="regAgree">Tôi đồng ý điều khoản</label>
+        </div>
+        <small id="errAgree" class="field-error"></small>
+
+        <div class="btn-row">
+          <button class="btn" type="submit">✅ Đăng ký</button>
+          <button class="btn btn--ghost" type="button" id="btnClearReg">🧹 Xoá form</button>
+          <button class="btn btn--ghost" type="button" id="btnViewSaved">👀 Xem dữ liệu lưu</button>
+        </div>
+
+        <p id="regMessage" class="success"></p>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>🧠 Giải thích logic tư duy (Bài 2)</h2>
+      <ul class="list">
+        <li><b>Submit:</b> dùng <code>event.preventDefault()</code> để chặn reload trang, rồi validate từng field.</li>
+        <li><b>Validate:</b> email dùng regex; password regex: ≥ 8 ký tự + có chữ hoa + chữ thường + số.</li>
+        <li><b>Bảo mật dữ liệu cục bộ:</b> demo sẽ lưu LocalStorage, nhưng <b>không nên lưu mật khẩu thô</b>. Mình lưu <b>hash SHA-256</b> (trong JS) để an toàn hơn. Thực tế nên dùng backend + HTTPS + cookie HttpOnly.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

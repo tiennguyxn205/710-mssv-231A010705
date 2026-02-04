@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập 1: Danh sách sản phẩm - 710-MSSV</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+        }
+        .navbar {
+            background: #2563eb;
+            padding: 1rem;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            margin: 0;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .card-title {
+            margin: 0;
+        }
+        .search-box {
+            margin: 1rem 0;
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .product-image {
+            font-size: 3rem;
+        }
+        .product-price {
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .btn {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .alert {
+            padding: 0.7rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .alert-info { background: #e0f2fe; }
+        .alert-success { background: #dcfce7; }
+        .alert-error { background: #fee2e2; }
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            background: #e5e7eb;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">kết thúc học phần - 710-231A010702</a>
+            <ul class="nav-menu">
+                
+                
+                <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+                <li><a href="baitap01.html" class="nav-link">Bài tập 1</a></li>
+                <li><a href="baitap02.html" class="nav-link">Bài tập 2</a></li>
+                <li><a href="baitap03.html" class="nav-link">Bài tập 3</a></li>
+               <li>
+    <a href="./baitap14.html" class="nav-link">
+        Bài tập 14
+    </a>
+</li>
+
+                <li><a href="about.html" class="nav-link">Giới thiệu</a></li>
+                <li><a href="contact.html" class="nav-link">Liên hệ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h1 class="card-title">Bài tập 1: Danh sách sản phẩm</h1>
+            <p>Hiển thị danh sách sản phẩm và tìm kiếm</p>
+
+            <div class="search-box">
+                <input id="searchInput" class="search-input" placeholder="🔍 Tìm sản phẩm..." />
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <div id="productsContainer" class="grid"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        kết thúc học phần - 710-231A010702
+    </footer>
+
+    <script>
+        // ===== HELPER FUNCTIONS =====
+        function sanitizeInput(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, m => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[m]);
+        }
+
+        function formatNumber(num) {
+            return num.toLocaleString('vi-VN');
+        }
+
+        function debounce(fn, delay) {
+            let t;
+            return (...args) => {
+                clearTimeout(t);
+                t = setTimeout(() => fn(...args), delay);
+            };
+        }
+
+        function showAlert(msg, type = 'info') {
+            const el = document.getElementById('alertContainer');
+            el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+            setTimeout(() => el.innerHTML = '', 3000);
+        }
+
+        function saveToLocalStorage(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+        }
+
+        function getFromLocalStorage(key) {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : null;
+        }
+
+        // ===== PRODUCTS DATA =====
+        const products = [
+            { id: 1, name: 'iPhone 15 Pro Max', price: 29990000, emoji: '📱', category: 'Điện thoại' },
+            { id: 2, name: 'Samsung Galaxy S24 Ultra', price: 27990000, emoji: '📱', category: 'Điện thoại' },
+            { id: 3, name: 'MacBook Pro M3', price: 45990000, emoji: '💻', category: 'Laptop' },
+            { id: 4, name: 'Dell XPS 15', price: 35990000, emoji: '💻', category: 'Laptop' },
+            { id: 5, name: 'iPad Pro 2024', price: 24990000, emoji: '📲', category: 'Máy tính bảng' },
+            { id: 6, name: 'AirPods Pro 2', price: 6990000, emoji: '🎧', category: 'Phụ kiện' }
+        ];
+
+        function renderProducts(list) {
+            const c = document.getElementById('productsContainer');
+            if (list.length === 0) {
+                c.innerHTML = '<p> Không tìm thấy sản phẩm</p>';
+                return;
+            }
+            c.innerHTML = list.map(p => `
+                <div class="product-card">
+                    <div class="product-image">${p.emoji}</div>
+                    <h3>${sanitizeInput(p.name)}</h3>
+                    <p>${sanitizeInput(p.category)}</p>
+                    <div class="product-price">${formatNumber(p.price)} ₫</div>
+                    <button class="btn" onclick="addToCart(${p.id})">🛒 Thêm</button>
+                </div>
+            `).join('');
+        }
+
+        function searchProducts(keyword) {
+            keyword = sanitizeInput(keyword).toLowerCase().trim();
+            if (!keyword) {
+                renderProducts(products);
+                return;
+            }
+            const rs = products.filter(p =>
+                p.name.toLowerCase().includes(keyword) ||
+                p.category.toLowerCase().includes(keyword)
+            );
+            renderProducts(rs);
+        }
+
+        const debouncedSearch = debounce(searchProducts, 300);
+
+        function addToCart(id) {
+            const p = products.find(x => x.id === id);
+            showAlert(`Đã thêm "${p.name}" vào giỏ`, 'success');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', e => {
+            debouncedSearch(e.target.value);
+        });
+
+        renderProducts(products);
+        showAlert('Chào mừng! Nhập để tìm sản phẩm', 'info');
+    </script>
+</body>
+</html>
